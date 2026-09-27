@@ -1,5 +1,5 @@
 /* CNA Prep - offline shell */
-const CACHE = "cna-prep-v2";
+const CACHE = "cna-prep-v6";
 const ASSETS = ["./","index.html","manifest.json",
   "icons/icon-192.png","icons/icon-512.png","icons/maskable-512.png",
   "icons/apple-touch-icon.png","icons/logo.png",
