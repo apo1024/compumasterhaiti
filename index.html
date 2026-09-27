@@ -10,9 +10,9 @@
 
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="CNA Prep">
@@ -96,7 +96,7 @@ header{
   border-bottom:1px solid var(--line);
 }
 .bar{max-width:720px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;}
-.bar img{height:30px;width:auto;display:block;border-radius:4px;}
+.bar img{height:30px;width:auto;display:block;background:#fff;padding:3px 5px;border-radius:6px;}
 .bar .who{flex:1;min-width:0;}
 .bar .who b{display:block;font-size:13px;font-weight:700;line-height:1.15;}
 .bar .who span{display:block;font-size:10.5px;color:var(--ink-3);letter-spacing:.07em;text-transform:uppercase;}
@@ -318,7 +318,7 @@ nav button:focus-visible{outline:2px solid var(--indigo-2);outline-offset:-3px;}
 
 <header>
   <div class="bar">
-    <img src="icons/logo.png" alt="CompuMaster Haiti">
+    <img src="logo.png" alt="CompuMaster Haiti">
     <div class="who"><b id="appname">CNA Prep</b><span id="appby">CompuMaster Haiti</span></div>
     <div class="lang" role="group" aria-label="Language">
       <button id="btn-en" aria-pressed="true">EN</button>
@@ -1003,7 +1003,7 @@ $("#p-reset").onclick = ()=>{
   try{
     const add = (rel, href)=>{ const l=document.createElement("link"); l.rel=rel; l.href=href; document.head.appendChild(l); };
     add("manifest", "manifest.json");
-    add("apple-touch-icon", "icons/apple-touch-icon.png");
+    add("apple-touch-icon", "apple-touch-icon.png");
     const m1=document.createElement("meta"); m1.name="apple-mobile-web-app-capable"; m1.content="yes"; document.head.appendChild(m1);
     const m2=document.createElement("meta"); m2.name="apple-mobile-web-app-title"; m2.content="CNA Prep"; document.head.appendChild(m2);
     const m3=document.createElement("meta"); m3.name="theme-color"; m3.content="#23106B"; document.head.appendChild(m3);

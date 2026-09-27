@@ -1,9 +1,9 @@
 /* CNA Prep - offline shell */
-const CACHE = "cna-prep-v6";
+const CACHE = "cna-prep-v7";
 const ASSETS = ["./","index.html","manifest.json",
-  "icons/icon-192.png","icons/icon-512.png","icons/maskable-512.png",
-  "icons/apple-touch-icon.png","icons/logo.png",
-  "favicon.ico","icons/favicon-32.png","icons/favicon-16.png","404.html"];
+  "icon-192.png","icon-512.png","maskable-512.png",
+  "apple-touch-icon.png","logo.png",
+  "favicon.ico","favicon-32.png","favicon-16.png","404.html"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS).catch(()=>{})).then(()=>self.skipWaiting()));
 });
