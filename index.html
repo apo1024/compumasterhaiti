@@ -522,6 +522,7 @@ const T = {
   reset:"Clear my progress", resetq:"Clear all saved progress on this device?",
   nav_home:"Practise", nav_guide:"Guide", nav_ask:"Ask", nav_prog:"Progress",
   install:"Add this app to your home screen.", installb:"Install",
+  iosInstall:"To install: tap Share at the bottom of Safari, then \u00ab Add to Home Screen \u00bb.", iosOk:"Got it",
   foot:"Original practice material from CompuMaster Haiti. Not affiliated with or endorsed by any testing organisation. Nurse aide scope and tested skills vary by state — where this app and your state or instructor disagree, follow your state.",
   gfoot:"This guide is written for study. It does not replace your training programme or your state's rules."
  },
@@ -549,6 +550,7 @@ const T = {
   reset:"Effacer ma progression", resetq:"Effacer toute la progression enregistree sur cet appareil ?",
   nav_home:"S'entrainer", nav_guide:"Guide", nav_ask:"Demander", nav_prog:"Progres",
   install:"Ajoutez cette application a votre ecran d'accueil.", installb:"Installer",
+  iosInstall:"Pour installer : touchez Partager en bas de Safari, puis \u00ab Sur l'ecran d'accueil \u00bb.", iosOk:"Compris",
   foot:"Materiel d'entrainement original de CompuMaster Haiti. Sans affiliation ni approbation d'un organisme d'examen. Le champ d'exercice et les competences evaluees varient selon l'Etat : en cas de divergence, suivez votre Etat et votre formateur.",
   gfoot:"Ce guide est concu pour l'etude. Il ne remplace ni votre formation ni la reglementation de votre Etat."
  }
@@ -559,6 +561,12 @@ let LANG = (localStorage.getItem("cna_lang") || (navigator.language||"en").slice
 if(LANG!=="fr") LANG="en";
 const t = k => T[LANG][k];
 let quiz = null;
+let IOS_HINT = false;
+function paintInstall(){
+  if(!$("#installtxt")) return;
+  $("#installtxt").textContent = IOS_HINT ? t("iosInstall") : t("install");
+  $("#installbtn").textContent = IOS_HINT ? t("iosOk") : t("installb");
+}
 
 const store = {
   get(){ try{ return JSON.parse(localStorage.getItem("cna_prog")||"{}"); }catch(e){ return {}; } },
@@ -688,8 +696,7 @@ function paintChrome(){
   $("#r-again").textContent = t("again");
   $("#r-home").textContent = t("backhome");
   $("#q-quit").textContent = t("quit");
-  $("#installtxt").textContent = t("install");
-  $("#installbtn").textContent = t("installb");
+  paintInstall();
   document.querySelectorAll("[data-nav]").forEach(s=> s.textContent = t("nav_"+s.dataset.nav));
   $("#btn-en").setAttribute("aria-pressed", String(LANG==="en"));
   $("#btn-fr").setAttribute("aria-pressed", String(LANG==="fr"));
@@ -1013,9 +1020,27 @@ $("#p-reset").onclick = ()=>{
   }
   let deferred=null;
   window.addEventListener("beforeinstallprompt", e=>{
-    e.preventDefault(); deferred=e; $("#install").classList.add("on");
+    e.preventDefault(); deferred=e; IOS_HINT=false; $("#install").classList.add("on"); paintInstall();
   });
+
+  /* Safari on iPhone and iPad offers no install prompt at all — Apple does not
+     provide one. Those users must use Share -> Add to Home Screen, so say so. */
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent||"");
+  const standalone = window.navigator.standalone === true
+                  || window.matchMedia("(display-mode: standalone)").matches;
+  let dismissed = false;
+  try{ dismissed = localStorage.getItem("cna_ios_hint") === "off"; }catch(e){}
+  if(isIOS && !standalone && !dismissed){
+    IOS_HINT = true;
+    $("#install").classList.add("on");
+    paintInstall();
+  }
   $("#installbtn").onclick = async ()=>{
+    if(IOS_HINT){
+      try{ localStorage.setItem("cna_ios_hint","off"); }catch(e){}
+      $("#install").classList.remove("on");
+      return;
+    }
     if(!deferred) { $("#install").classList.remove("on"); return; }
     deferred.prompt();
     try{ const c = await deferred.userChoice; if(c && c.outcome === "accepted") pushRoute("installed"); }catch(e){}
