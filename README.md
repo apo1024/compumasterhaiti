@@ -54,3 +54,11 @@ organisation. Nurse aide scope of practice and tested skills vary by state — w
 state or instructor disagree, follow your state and your instructor.
 
 © CompuMaster Haiti
+
+## Members version
+
+The published `index.html` is a members version: the home screen, 10 beginner questions and
+2 guide chapters are free; everything else is encrypted (AES-GCM, key derived from the members'
+access code with PBKDF2). The code is given in the members-only post of the YouTube channel
+@compumasterhaiti and is never stored in this repository. To edit content, change the private full
+source and rebuild the members version with `build_membres.py` (kept outside this repository).
